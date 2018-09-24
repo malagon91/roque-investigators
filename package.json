@@ -18,11 +18,13 @@
         "eslint": "4.0.0",
         "eslint-plugin-react": "7.1.0",
         "jest": "20.0.4",
-        "react-test-renderer": "15.5.4"
+        "react-test-renderer": "15.5.4",
+        "redux-devtools-extension": "^2.13.5",
+        "redux-immutable-state-invariant": "^2.1.0"
     },
     "scripts": {
         "dev": "set NODE_PATH=./lib&& nodemon --exec babel-node lib/server.js",
-        "webpack": "webpack -wd",
+        "webpack": "webpack -wd ",
         "test": "jest --watch"
     },
     "babel": {
@@ -33,7 +35,7 @@
         ]
     },
     "dependencies": {
-        "axios": "0.16.2",
+        "axios": "^0.18.0",
         "babel-cli": "6.24.1",
         "babel-loader": "7.0.0",
         "babel-polyfill": "6.23.0",
@@ -49,7 +51,9 @@
         "prop-types": "15.5.10",
         "react": "15.6.0",
         "react-dom": "15.6.0",
+        "react-redux": "^5.0.7",
         "redux": "^4.0.0",
+        "redux-axios-middleware": "^4.0.0",
         "webpack": "2.6.1"
     },
     "bugs": {
