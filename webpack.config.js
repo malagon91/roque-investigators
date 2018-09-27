@@ -1,5 +1,6 @@
 const path = require('path');
-module.exports = {// add babel polyfill to run most new code on js
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+module.exports = {
   resolve: {
     modules:[
       path.resolve('./lib'),
@@ -19,8 +20,13 @@ module.exports = {// add babel polyfill to run most new code on js
       },
       {
         test:/\.(s*)css$/,
-        use:['style-loader','css-loader', 'sass-loader']
+        use: ExtractTextPlugin.extract({
+          use: ["css-loader","sass-loader"]
+      })
      }
     ]
-  }
-};// yarn add @babel/env @babel/react @babel/preset-react
+  },
+  plugins: [
+    new ExtractTextPlugin('css/styles.css')
+]
+};
