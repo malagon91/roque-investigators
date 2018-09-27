@@ -15,7 +15,12 @@ module.exports = {// add babel polyfill to run most new code on js
     rules: [
       { test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: 'babel-loader' }
+        use: 'babel-loader' 
+      },
+      {
+        test:/\.(s*)css$/,
+        use:['style-loader','css-loader', 'sass-loader']
+     }
     ]
   }
 };// yarn add @babel/env @babel/react @babel/preset-react
