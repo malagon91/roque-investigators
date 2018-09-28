@@ -23,8 +23,17 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           use: ["css-loader","sass-loader"]
       })
-     }
-    ]
+     }, { //imagenes
+       test: /\.jpg|png|gif|svg$/,
+       use: {
+         loader: 'url-loader',
+         options: { // cuando la imagen pese mas de 10k lo va a enviar con el file loader
+           limit: 10000,
+           fallback: 'file-loader',
+           name: 'images/[name].[ext]'
+         }
+       }
+     }]
   },
   plugins: [
     new ExtractTextPlugin('css/styles.css')

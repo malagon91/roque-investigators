@@ -22,7 +22,9 @@
         "style-loader": "^0.22.1",
         "extract-text-webpack-plugin": "^3.0.2",
         "node-sass": "^4.9.3",
-        "css-loader": "^1.0.0"
+        "css-loader": "^1.0.0",
+        "file-loader": "^1.1.5",
+        "url-loader": "^0.6.2"
     },
     "scripts": {
         "dev": "set NODE_PATH=./lib&& nodemon --exec babel-node lib/server.js",
