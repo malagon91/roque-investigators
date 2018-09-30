@@ -1,6 +1,10 @@
 @import 'themeColors';
 $theme-font: verdana,
 sans-serif;
+body {
+    // background-color: $color-secondary;
+}
+
 .header {
     background-color: $color-primary;
     .image {
