@@ -1,51 +1,45 @@
 @import 'themeColors';
-$theme-font:    verdana, sans-serif;
-
-.header{
-  background-color: $color-primary;
-
-    .image{
-      height: auto;
+$theme-font: verdana,
+sans-serif;
+.header {
+    background-color: $color-primary;
+    .image {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 90vh;
     }
-
-    .title{
-      color: white;
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-
-    .navbar-local{
-      color: white;
-    }
-
-    .btn-search{
-      color: white;
-      background-color: transparent;
-      background-image: none;
-      border-color: white;
-      &:hover {
-        color:$color-primary;
+    .image-wrapper {
         background-color: white;
-      }
-      &:active {color:$color-primary;background-color: white;}   
+        text-align: center;
     }
-
-    .link{
-      color: white !important;
-      
-      &:visited{
+    .title {
         color: white;
-      }
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
-}
-
-.header-image {
-  width: 100px;
-  height: 100px;
-  background-image: url('../images/background.jpg');
-  background-size: cover;
-
-
-
+    .navbar-local {
+        color: white;
+    }
+    .btn-search {
+        color: white;
+        background-color: transparent;
+        background-image: none;
+        border-color: white;
+        &:hover {
+            color: $color-primary;
+            background-color: white;
+        }
+        &:active {
+            color: $color-primary;
+            background-color: white;
+        }
+    }
+    .link {
+        color: white !important;
+        &:visited {
+            color: white;
+        }
+    }
 }

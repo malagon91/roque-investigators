@@ -9,7 +9,7 @@ var router = express.Router();
 router.get('/investigators', function(req, res, next) {
   res.locals.connection.query('SELECT * from Investigator', function (error, results, fields) {
 		if(error) throw error;
-		res.send(JSON.stringify(results));
+			res.status(200).send(JSON.stringify(results));
 	});
 });
 
