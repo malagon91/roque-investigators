@@ -1,5 +1,6 @@
 const path = require('path');
-module.exports = {// add babel polyfill to run most new code on js
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+module.exports = {
   resolve: {
     modules:[
       path.resolve('./lib'),
@@ -15,7 +16,26 @@ module.exports = {// add babel polyfill to run most new code on js
     rules: [
       { test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: 'babel-loader' }
-    ]
-  }
-};// yarn add @babel/env @babel/react @babel/preset-react
+        use: 'babel-loader' 
+      },
+      {
+        test:/\.(s*)css$/,
+        use: ExtractTextPlugin.extract({
+          use: ["css-loader","sass-loader"]
+      })
+     }, { //imagenes
+       test: /\.jpg|png|gif|svg$/,
+       use: {
+         loader: 'url-loader',
+         options: { // cuando la imagen pese mas de 10k lo va a enviar con el file loader
+           limit: 10000,
+           fallback: 'file-loader',
+           name: 'images/[name].[ext]'
+         }
+       }
+     }]
+  },
+  plugins: [
+    new ExtractTextPlugin('css/styles.css')
+]
+};
