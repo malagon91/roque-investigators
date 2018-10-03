@@ -1,6 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import cors from 'cors';
+import bcrypt from 'bcryptjs';
 import config from './../lib/config';
 import middleware from './../lib/middleware';
 
@@ -33,7 +33,10 @@ router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 
 router.post('/user',middleware.checkToken, function(req,res){
 	let appData = {};
-	const user = req.body;
+	let user = req.body;
+	const hashedPassword =bcrypt.hashSync(user.Password_, config.salt_rounds);
+	user = {...user, Password_: hashedPassword}
+
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
 			appData = {success:false, message: "Error to insert the user"};
@@ -81,28 +84,31 @@ router.post('/login', function(req,res){
 	const password = req.body.password;
 	res.locals.connection.query(`SELECT * from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
-			appData.error = 1;
- 			appData["data"] = "Error Occured!";
+			appData = {success: false, message: "Error Occured!"};
  			res.status(400).json(appData);
 		}else{
 			if (results.length >0){
-				if (results[0].Password_ == password){
-					const userInfo = {
-						Id: results[0].Id,
-						Email: results[0].Email,
-						Name: results[0].Name_Investigator,
+				bcrypt.compare(password,results[0].Password_, (err,response)=>{
+					if (response){
+						//if (results[0].Password_ == password){
+						const userInfo = {
+							Id: results[0].Id,
+							Email: results[0].Email,
+							Name: results[0].Name_Investigator,
 
+						}
+						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
+						appData = {success: true, message: "Login su"};
+						appData.error = 0;
+						appData = {...appData, userInfo }
+						appData["token"]= token;
+						res.status(200).json(appData);
+					}else{
+						appData.error = 1;
+						appData["data"] = 'Error en la contraseña';
+						res.status(200).json(appData);
 					}
-					const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
-					appData.error = 0;
-					appData = {...appData, userInfo }
-					appData["token"]= token;
-					res.status(200).json(appData);
-				}else{
-					appData.error = 1;
-					appData["data"] = 'Error en la contraseña';
-					res.status(200).json(appData);
-				}
+			});
 			}else{
 				appData.error = 1;
 				appData["data"] = 'No existe el usuario';
