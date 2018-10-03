@@ -27,16 +27,19 @@ Tables
 create table Investigator(
 Id int NOT NULL primary key AUTO_INCREMENT,
 Name_Investigator varchar(100),
+Title varchar(100),
 Photo varchar(100),
 Institution varchar(500),
 Depto varchar(200),
 Address varchar(1000),
 Url varchar(200),
-Email varchar(200),
+Email varchar(200) unique,
+Password_ varchar(1000),
 Phone varchar(13),
 Info varchar(2000)
 )
-insert into Investigator (Name_Investigator,Photo,Institution,Depto,Address,Url,Email,Phone,Info)
-values ('Miguel Malagon', 'imge.jpg', 'Instituto tecnologico de roque',
+
+insert into Investigator (Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Phone,Info)
+values ('Miguel Malagon','Lic en informatica en el ITR', 'imge.jpg', 'Instituto tecnologico de roque',
 'Sistemas', 'Cela ya gto', 'https://github.com/malagon91', 'miguelmalagon@outlook.com','1234567890', 'Resume')
 ​
