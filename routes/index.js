@@ -91,27 +91,24 @@ router.post('/login', function(req,res){
 				bcrypt.compare(password,results[0].Password_, (err,response)=>{
 					if (response){
 						//if (results[0].Password_ == password){
-						const userInfo = {
+						let userInfo = {
 							Id: results[0].Id,
 							Email: results[0].Email,
 							Name: results[0].Name_Investigator,
 
 						}
 						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
-						appData = {success: true, message: "Login su"};
-						appData.error = 0;
+						appData = {success: true, message: "Login successfully"};
+						userInfo = {...userInfo, token: token}
 						appData = {...appData, userInfo }
-						appData["token"]= token;
 						res.status(200).json(appData);
 					}else{
-						appData.error = 1;
-						appData["data"] = 'Error en la contraseña';
+						appData = {success: false, message: "Error en la contraseña"};
 						res.status(200).json(appData);
 					}
 			});
 			}else{
-				appData.error = 1;
-				appData["data"] = 'No existe el usuario';
+				appData = {success: false, message: "No existe el usuario"};
 				res.status(200).json(appData);
 			}
 		}
