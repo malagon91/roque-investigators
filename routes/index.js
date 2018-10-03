@@ -31,20 +31,48 @@ router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 	});
 });
 
-router.post('/addUser',middleware.checkToken, function(req,res){
+router.post('/user',middleware.checkToken, function(req,res){
 	let appData = {};
 	const user = req.body;
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
-			appData.error = 1;
-			appData["data"] = "Error Occured!";
+			appData = {success:false, message: "Error to insert the user"};
 			res.status(400).json(appData);
 		}else{
-			appData.error = 0;
-			appData["data"]= "insert sucessfull";
+			appData = {success:true, message: "insert was successfully"};
 			res.status(200).json(appData);
 		}
 });
+});
+
+router.put('/user',middleware.checkToken, function(req,res){
+	let appData = {};
+	const user = req.body;
+	res.locals.connection.query("update Investigator set ? where Id = ?", [user, user.Id], function(error,results,fields){
+		if (error){
+			appData = {success:false, message: "Error to update the user"};
+			res.status(400).json(appData);
+		}else{
+			appData = {success:true, message: "update was successfully"};
+			res.status(200).json(appData);
+		}
+});
+});
+
+
+router.delete('/user/:id', middleware.checkToken,function(req,res){
+	const id = req.params.id;
+	console.log(id);
+	let appData ={};
+	res.locals.connection.query("delete from Investigator where Id = ?",[id],function(error,results,fields){
+		if(error){
+			appData = {success:false, message:`Error deleting the user ${id}`};
+			res.status(400).json(appData);
+		}else{
+			appData = {success:true, message:"Deleting was successfully"};
+			res.status(200).json(appData);
+		}
+	});
 });
 
 router.post('/login', function(req,res){
