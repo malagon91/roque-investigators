@@ -6,11 +6,6 @@ import middleware from './../lib/middleware';
 
 var router = express.Router();
 
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
-
 router.get('/investigators', function(req, res, next) {
   res.locals.connection.query('SELECT * from Investigator', function (error, results, fields) {
 		if(error) throw error;
@@ -65,7 +60,6 @@ router.put('/user',middleware.checkToken, function(req,res){
 
 router.delete('/user/:id', middleware.checkToken,function(req,res){
 	const id = req.params.id;
-	console.log(id);
 	let appData ={};
 	res.locals.connection.query("delete from Investigator where Id = ?",[id],function(error,results,fields){
 		if(error){
@@ -90,7 +84,6 @@ router.post('/login', function(req,res){
 			if (results.length >0){
 				bcrypt.compare(password,results[0].Password_, (err,response)=>{
 					if (response){
-						//if (results[0].Password_ == password){
 						let userInfo = {
 							Id: results[0].Id,
 							Email: results[0].Email,
