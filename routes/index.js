@@ -1,7 +1,8 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
-import config from 'config';
+import config from './../lib/config';
+import middleware from './../lib/middleware';
 
 var router = express.Router();
 
@@ -13,15 +14,43 @@ var router = express.Router();
 router.get('/investigators', function(req, res, next) {
   res.locals.connection.query('SELECT * from Investigator', function (error, results, fields) {
 		if(error) throw error;
-			res.status(200).send(JSON.stringify(results));
+			res.status(200).json(results);
 	});
+});
+
+router.get('/investigator/:id',middleware.checkToken, function(req, res) {
+	const id =  req.params.id;
+	const object_error= {};
+	res.locals.connection.query("select * from Investigator where Id = ?",[id] ,function(error,results,fields){
+		if(error){
+			object_error["error"] = 'Error getting the investigator';
+			res.status(400).json(object_error);
+		}else{
+			res.status(200).json(results);
+		}
+	});
+});
+
+router.post('/addUser',middleware.checkToken, function(req,res){
+	let appData = {};
+	const user = req.body;
+	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
+		if (error){
+			appData.error = 1;
+			appData["data"] = "Error Occured!";
+			res.status(400).json(appData);
+		}else{
+			appData.error = 0;
+			appData["data"]= "insert sucessfull";
+			res.status(200).json(appData);
+		}
+});
 });
 
 router.post('/login', function(req,res){
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
-	console.log(req.body);
 	res.locals.connection.query(`SELECT * from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData.error = 1;
@@ -32,7 +61,7 @@ router.post('/login', function(req,res){
 				if (results[0].Password_ == password){
 					const userInfo = {
 						Id: results[0].Id,
-						Email: results[0].Email, 
+						Email: results[0].Email,
 						Name: results[0].Name_Investigator,
 
 					}
