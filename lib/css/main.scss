@@ -77,8 +77,9 @@ body {
 #login-app {
     background: #eee !important;
     .wrapper {
-        margin-top: 80px;
-        margin-bottom: 80px;
+        padding-top: 5vh;
+        padding-bottom: 5vh;
+        height: 80vh;
         .form-signin {
             max-width: 380px;
             padding: 15px 35px 45px;
@@ -98,15 +99,17 @@ body {
                     z-index: 2;
                 }
             }
-            input[type="text"] {
-                margin-bottom: -1px;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-            input[type="password"] {
-                margin-bottom: 20px;
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
+            input{
+                &[type="text"]{
+                    margin-bottom: -1px;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+                &[type="password"]{
+                    margin-bottom: 20px;
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                }
             }
         }
     }
