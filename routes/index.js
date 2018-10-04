@@ -31,7 +31,6 @@ router.post('/user',middleware.checkToken, function(req,res){
 	let user = req.body;
 	const hashedPassword =bcrypt.hashSync(user.Password_, config.salt_rounds);
 	user = {...user, Password_: hashedPassword}
-
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
 			appData = {success:false, message: "Error to insert the user"};
