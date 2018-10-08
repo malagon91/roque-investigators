@@ -16,12 +16,12 @@ router.get('/investigators', function(req, res, next) {
 router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 	const id =  req.params.id;
 	const object_error= {};
-	res.locals.connection.query("select * from Investigator where Id = ?",[id] ,function(error,results,fields){
+	res.locals.connection.query("select Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Password_,Phone,Info from Investigator where Id = ?",[id] ,function(error,results,fields){
 		if(error){
-			object_error["error"] = 'Error getting the investigator';
-			res.status(400).json(object_error);
+			object_error["message"] = 'Error getting the investigator';
+			res.status(500).json(object_error);
 		}else{
-			res.status(200).json(results);
+			res.status(200).json(results[0]);
 		}
 	});
 });
