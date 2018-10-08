@@ -6,11 +6,6 @@ import middleware from './../lib/middleware';
 
 var router = express.Router();
 
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
-
 router.get('/investigators', function(req, res, next) {
   res.locals.connection.query('SELECT * from Investigator', function (error, results, fields) {
 		if(error) throw error;
@@ -36,7 +31,6 @@ router.post('/user',middleware.checkToken, function(req,res){
 	let user = req.body;
 	const hashedPassword =bcrypt.hashSync(user.Password_, config.salt_rounds);
 	user = {...user, Password_: hashedPassword}
-
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
 			appData = {success:false, message: "Error to insert the user"};
@@ -65,7 +59,6 @@ router.put('/user',middleware.checkToken, function(req,res){
 
 router.delete('/user/:id', middleware.checkToken,function(req,res){
 	const id = req.params.id;
-	console.log(id);
 	let appData ={};
 	res.locals.connection.query("delete from Investigator where Id = ?",[id],function(error,results,fields){
 		if(error){
@@ -82,7 +75,7 @@ router.post('/login', function(req,res){
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
-	res.locals.connection.query(`SELECT * from Investigator where Email = '${email}'`, function (error, results, fields) {
+	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Password_,Phone,Info from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData = {success: false, message: "Error Occured!"};
  			res.status(400).json(appData);
@@ -90,7 +83,6 @@ router.post('/login', function(req,res){
 			if (results.length >0){
 				bcrypt.compare(password,results[0].Password_, (err,response)=>{
 					if (response){
-						//if (results[0].Password_ == password){
 						let userInfo = {
 							Id: results[0].Id,
 							Email: results[0].Email,
@@ -100,7 +92,7 @@ router.post('/login', function(req,res){
 						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
 						appData = {success: true, message: "Login successfully"};
 						userInfo = {...userInfo, token: token}
-						appData = {...appData, userInfo }
+						appData = {...appData, userInfo, resume: {...results[0], Password_: ''} }
 						res.status(200).json(appData);
 					}else{
 						appData = {success: false, message: "Error en la contraseña"};
