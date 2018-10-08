@@ -75,7 +75,7 @@ router.post('/login', function(req,res){
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
-	res.locals.connection.query(`SELECT * from Investigator where Email = '${email}'`, function (error, results, fields) {
+	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Password_,Phone,Info from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData = {success: false, message: "Error Occured!"};
  			res.status(400).json(appData);
@@ -92,7 +92,7 @@ router.post('/login', function(req,res){
 						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
 						appData = {success: true, message: "Login successfully"};
 						userInfo = {...userInfo, token: token}
-						appData = {...appData, userInfo }
+						appData = {...appData, userInfo, resume: {...results[0], Password_: ''} }
 						res.status(200).json(appData);
 					}else{
 						appData = {success: false, message: "Error en la contraseña"};
