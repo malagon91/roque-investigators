@@ -48,7 +48,17 @@ body {
         cursor: pointer;
     }
     .custom-dropdown {
-        background-color: transparent;
+        background-color: $color-primary;
+        &:hover {
+            background-color: $color-primary;
+            color: white;
+        }
+    }
+    .drop {
+        &:hover {
+            background-color: $color-primary;
+            color: white;
+        }
     }
 }
 
