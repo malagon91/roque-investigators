@@ -43,3 +43,5 @@ insert into Investigator (Name_Investigator,Title,Photo,Institution,Depto,Addres
 values ('Miguel Malagon','Lic en informatica en el ITR', 'imge.jpg', 'Instituto tecnologico de roque',
 'Sistemas', 'Cela ya gto', 'https://github.com/malagon91', 'miguelmalagon@outlook.com','1234567890', 'Resume')
 ​
+
+ALTER TABLE investigator ADD COLUMN isAdmin TinyInt(1)
