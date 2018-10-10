@@ -10,7 +10,7 @@ import middleware from './../lib/middleware';
 var router = express.Router();
 
 router.get('/investigators', function(req, res, next) {
-  res.locals.connection.query('SELECT * from Investigator', function (error, results, fields) {
+  res.locals.connection.query('SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Phone,Info,isAdmin from Investigator', function (error, results, fields) {
 		if(error) throw error;
 			res.status(200).json(results);
 	});
@@ -19,7 +19,7 @@ router.get('/investigators', function(req, res, next) {
 router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 	const id =  req.params.id;
 	const object_error= {};
-	res.locals.connection.query("select Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Phone,Info from Investigator where Id = ?",[id] ,function(error,results,fields){
+	res.locals.connection.query("select Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Phone,Info,isAdmin from Investigator where Id = ?",[id] ,function(error,results,fields){
 		if(error){
 			object_error["message"] = 'Error getting the investigator';
 			res.status(500).json(object_error);
@@ -112,8 +112,7 @@ router.post('/login', function(req,res){
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
-	console.log(req.body);
-	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Password_,Phone,Info from Investigator where Email = '${email}'`, function (error, results, fields) {
+	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Password_,Phone,Info,isAdmin from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData = {success: false, message: "Error Occured!"};
  			res.status(400).json(appData);
