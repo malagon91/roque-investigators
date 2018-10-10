@@ -1,6 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import path from 'path';
+import sharp from 'sharp';
+import fs from 'fs';
 import config from './../lib/config';
 import middleware from './../lib/middleware';
 
@@ -16,7 +19,7 @@ router.get('/investigators', function(req, res, next) {
 router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 	const id =  req.params.id;
 	const object_error= {};
-	res.locals.connection.query("select Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Password_,Phone,Info from Investigator where Id = ?",[id] ,function(error,results,fields){
+	res.locals.connection.query("select Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Phone,Info from Investigator where Id = ?",[id] ,function(error,results,fields){
 		if(error){
 			object_error["message"] = 'Error getting the investigator';
 			res.status(500).json(object_error);
@@ -71,10 +74,24 @@ router.delete('/user/:id', middleware.checkToken,function(req,res){
 	});
 });
 
+router.post('/profilepic', function(req,res){
+	const tmp_path = req.files.file.path;
+	const id_user = req.body.Id;
+	const file_extension = path.extname(req.files.file.name);
+	console.log(tmp_path)
+	const target_image =`${config.profile_photo_path}${id_user}_profile.jpg`;
+
+	sharp(tmp_path)
+			.resize(320,320)
+			.toFile(target_image, (error,info)=> console.log(info))
+			res.status(200).json({res: 'coool'});
+
+})
 router.post('/login', function(req,res){
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
+	console.log(req.body);
 	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Password_,Phone,Info from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData = {success: false, message: "Error Occured!"};
@@ -92,7 +109,9 @@ router.post('/login', function(req,res){
 						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
 						appData = {success: true, message: "Login successfully"};
 						userInfo = {...userInfo, token: token}
-						appData = {...appData, userInfo, resume: {...results[0], Password_: ''} }
+						let resume = results[0];
+						delete resume.Password_;
+						appData = {...appData, userInfo, resume: resume }
 						res.status(200).json(appData);
 					}else{
 						appData = {success: false, message: "Error en la contraseña"};

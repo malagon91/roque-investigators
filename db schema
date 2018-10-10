@@ -45,3 +45,5 @@ values ('Miguel Malagon','Lic en informatica en el ITR', 'imge.jpg', 'Instituto 
 ​
 
 ALTER TABLE investigator ADD COLUMN isAdmin TinyInt(1)
+
+install legacy tool for user image resize
