@@ -36,6 +36,7 @@ router.post('/user',middleware.checkToken, function(req,res){
 	user = {...user, Password_: hashedPassword}
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
+			console.log(error)
 			appData = {success:false, message: "Error to insert the user"};
 			res.status(400).json(appData);
 		}else{
@@ -78,7 +79,6 @@ router.post('/profilepic', function(req,res){
 	let appData = {};
 	const tmp_path = req.files.file.path;
 	const id_user = req.body.Id;
-	const file_extension = path.extname(req.files.file.name);
 	const target_image =`${config.profile_photo_path}${id_user}_profile.jpg`;
 	sharp(tmp_path)
 		.resize(config.profile_width, config.profile_height)
@@ -92,7 +92,6 @@ router.post('/profilepic', function(req,res){
 				} else {
 					fs.unlink(tmp_path, (err) => {
 							if (err) {
-								console.log(err)
 								appData = {
 									success: true,
 									message: "The info was updated with errors"
