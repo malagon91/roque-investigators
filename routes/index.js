@@ -64,7 +64,6 @@ router.put('/user',middleware.checkToken, function(req,res){
 });
 });
 
-
 router.delete('/user/:id', middleware.checkToken,function(req,res){
 	const id = req.params.id;
 	let appData ={};
@@ -115,7 +114,7 @@ router.post('/login', function(req,res){
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
-	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Password_,Phone,Info,isAdmin from Investigator where Email = '${email}'`, function (error, results, fields) {
+	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Password_,Phone,Info, isAdmin from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData = {success: false, message: "Error Occured!"};
  			res.status(400).json(appData);
@@ -127,7 +126,7 @@ router.post('/login', function(req,res){
 							Id: results[0].Id,
 							Email: results[0].Email,
 							Name: results[0].Name_Investigator,
-
+							isAdmin: results[0].isAdmin,
 						}
 						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
 						appData = {success: true, message: "Login successfully"};
