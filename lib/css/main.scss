@@ -8,6 +8,15 @@ body {
     background-color: white;
     //  height: 80vh;
 }
+
+//common classes 
+.custom-icon {
+    font-size: 50px;
+}
+.icon-wrapper {
+    text-align: center;
+}
+
 @import 'header.scss';
 @import 'footer.scss';
 @import 'home.scss';
