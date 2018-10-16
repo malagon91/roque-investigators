@@ -1,0 +1,15 @@
+#center-content {
+  .title {
+      color: $color-secondary;
+      font-weight: bolder;
+      border-bottom: solid 1px #959595;
+  }
+  .invest-wrapper {
+      a {
+          color: $color-secondary;
+          &:visited {
+              color: $color-secondary;
+          }
+      }
+  }
+}

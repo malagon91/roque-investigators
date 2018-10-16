@@ -28,7 +28,6 @@ create table Investigator(
 Id int NOT NULL primary key AUTO_INCREMENT,
 Name_Investigator varchar(100),
 Title varchar(100),
-Photo varchar(100),
 Institution varchar(500),
 Depto varchar(200),
 Address varchar(1000),
@@ -43,3 +42,7 @@ insert into Investigator (Name_Investigator,Title,Photo,Institution,Depto,Addres
 values ('Miguel Malagon','Lic en informatica en el ITR', 'imge.jpg', 'Instituto tecnologico de roque',
 'Sistemas', 'Cela ya gto', 'https://github.com/malagon91', 'miguelmalagon@outlook.com','1234567890', 'Resume')
 ​
+
+ALTER TABLE investigator ADD COLUMN isAdmin TinyInt(1)
+
+ALTER TABLE investigator drop column  Photo
