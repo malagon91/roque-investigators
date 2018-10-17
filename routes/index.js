@@ -10,14 +10,14 @@ import {checkIffileExists} from './../lib/utils';
 
 var router = express.Router();
 
-router.get('/investigators', function(req, res, next) {
+router.get('/investigators', (req, res, next) => {
   res.locals.connection.query('SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Phone,Info,isAdmin from Investigator', function (error, results, fields) {
 		if(error) throw error;
 			res.status(200).json(results);
 	});
 });
 
-router.get('/investigator/:id',middleware.checkToken, function(req, res) {
+router.get('/investigator/:id',middleware.checkToken, (req, res) => {
 	const id =  req.params.id;
 	const object_error= {};
 	res.locals.connection.query("select Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Phone,Info,isAdmin from Investigator where Id = ?",[id] ,function(error,results,fields){
@@ -32,7 +32,7 @@ router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 	});
 });
 
-router.post('/user',middleware.checkToken, function(req,res){
+router.post('/user',middleware.checkToken, (req,res) => {
 	let appData = {};
 	let user = req.body;
 	const hashedPassword =bcrypt.hashSync(user.Password_, config.salt_rounds);
@@ -48,7 +48,7 @@ router.post('/user',middleware.checkToken, function(req,res){
 });
 });
 
-router.put('/user',middleware.checkToken, function(req,res){
+router.put('/user',middleware.checkToken, (req,res) => {
 	let appData = {};
 	const user = req.body;
 	res.locals.connection.query("update Investigator set ? where Id = ?", [user, user.Id], function(error,results,fields){
@@ -62,7 +62,7 @@ router.put('/user',middleware.checkToken, function(req,res){
 });
 });
 
-router.delete('/user/:id', middleware.checkToken,function(req,res){
+router.delete('/user/:id', middleware.checkToken, (req,res) => {
 	const id = req.params.id;
 	let appData ={};
 	res.locals.connection.query("delete from Investigator where Id = ?",[id],function(error,results,fields){
@@ -76,7 +76,7 @@ router.delete('/user/:id', middleware.checkToken,function(req,res){
 	});
 });
 
-router.post('/profilepic', function(req,res){
+router.post('/profilepic', middleware.checkToken, (req,res) => {
 	let appData = {};
 	const tmp_path = req.files.file.path;
 	const id_user = req.body.Id;
@@ -108,7 +108,7 @@ router.post('/profilepic', function(req,res){
 					}
 				})
 	})
-router.post('/login', function(req,res){
+router.post('/login', (req,res) => {
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;

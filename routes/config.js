@@ -4,7 +4,7 @@ import middleware from './../lib/middleware';
 
 var router = express.Router();
 
-router.put('/config', middleware.checkToken, function (req, res) {
+router.put('/config', middleware.checkToken,  (req, res) => {
   let appData = {};
   const password = req.body.DefaultPsw;
   res.locals.connection.query("update Config set DefaultPsw= ? ORDER BY Id ASC LIMIT 1", [password], (error, results, fields) => {
