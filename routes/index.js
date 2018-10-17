@@ -51,12 +51,10 @@ router.post('/user',middleware.checkToken, function(req,res){
 router.put('/user',middleware.checkToken, function(req,res){
 	let appData = {};
 	const user = req.body;
-	console.log(user);
 	res.locals.connection.query("update Investigator set ? where Id = ?", [user, user.Id], function(error,results,fields){
 		if (error){
 			appData = {success:false, message: "Error to update the user"};
 			res.status(500).json(appData);
-			console.log(error)
 		}else{
 			appData = {success:true, message: "update was successfully"};
 			res.status(200).json(appData);

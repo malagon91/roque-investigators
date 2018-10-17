@@ -1,5 +1,9 @@
 Investigators DB
 Tables
++Config
+  Id,
+  DefaultPsw,
+
 +Investigator
   Id,
   Name,
@@ -46,3 +50,10 @@ values ('Miguel Malagon','Lic en informatica en el ITR', 'imge.jpg', 'Instituto 
 ALTER TABLE investigator ADD COLUMN isAdmin TinyInt(1)
 
 ALTER TABLE investigator drop column  Photo
+
+create table Config(
+Id int NOT NULL primary key AUTO_INCREMENT,
+DefaultPsw varchar(50)
+)
+
+insert into Config (DefaultPsw) values ('roque')
