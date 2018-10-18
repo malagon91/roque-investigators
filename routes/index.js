@@ -40,7 +40,7 @@ router.post('/user',middleware.checkToken, (req,res) => {
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
 			appData = {success:false, message: "Error to insert the user"};
-			res.status(400).json(appData);
+			res.status(500).json(appData);
 		}else{
 			appData = {success:true, message: "insert was successfully"};
 			res.status(200).json(appData);
