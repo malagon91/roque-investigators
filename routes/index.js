@@ -39,6 +39,7 @@ router.post('/user',middleware.checkToken, (req,res) => {
 	user = {...user, Password_: hashedPassword}
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
+			console.log(error)
 			appData = {success:false, message: "Error to insert the user"};
 			res.status(500).json(appData);
 		}else{
