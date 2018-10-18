@@ -65,7 +65,7 @@ router.put('/user',middleware.checkToken, (req,res) => {
 
 router.delete('/user/:id', middleware.checkToken, (req,res) => {
 	const id = req.params.id;
-	let appData ={};
+	let appData ={};// TODO: add logic to delete projects when the tables are been created
 	res.locals.connection.query("delete from Investigator where Id = ?",[id],function(error,results,fields){
 		if(error){
 			appData = {success:false, message:`Error deleting the user ${id}`};
@@ -147,6 +147,38 @@ router.post('/login', (req,res) => {
 			}
 		}
 
+	});
+
+});
+
+router.put('/reset/password',middleware.checkToken, (req,res) =>{
+	const id = req.params.id;
+	const newPassword = req.params.password;
+	const hashedPassword =bcrypt.hashSync(newPassword, config.salt_rounds);
+	let appData ={};
+	res.locals.connection.query("update Investigator set Password_ = ? where Id= ?",[hashedPassword,id], (error,results,fields) =>{
+		if(error){
+			appData = {success:false, message:`Error saving the new password`};
+			res.status(500).json(appData);
+		}else{
+			appData = {success:true, message:"The process was completed successfully "};
+			res.status(200).json(appData);
+		}
+	});
+});
+
+router.put('/reset/privileges',middleware.checkToken, (req,res) =>{
+	const id = req.params.id;
+	const isAdmin = req.params.isAdmin;
+	let appData ={};
+	res.locals.connection.query("update Investigator set isAdmin = ? where Id= ?",[isAdmin,id], (error,results,fields) =>{
+		if(error){
+			appData = {success:false, message:`Error saving the values`};
+			res.status(500).json(appData);
+		}else{
+			appData = {success:true, message:"The process was completed successfully "};
+			res.status(200).json(appData);
+		}
 	});
 
 });
