@@ -1,1 +1,17 @@
-#new-user-form {}
+#new-user-form {
+  text-align: center;
+  h3 {
+    color: $color-secondary;
+    padding: 15px;
+  }
+
+  .form-content{
+    padding: 3vh;
+  }
+
+  .isadmin{
+    padding: 15px;
+    color: $color-secondary;
+    
+  }
+}
