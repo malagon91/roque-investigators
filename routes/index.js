@@ -167,6 +167,43 @@ router.put('/reset/password',middleware.checkToken, (req,res) =>{
 	});
 });
 
+router.put('/change/password',middleware.checkToken, (req,res) =>{
+	const _id = req.body._id;
+	const _old = req.body._old;
+	const _new = req.body._new;
+	let appData ={};
+	res.locals.connection.query(`SELECT Id,Password_ from Investigator where Id = '${_id}'`,  (error, results, fields) => {
+		if(error){
+			appData = {success:false, message:`Error getting function`};
+			res.status(500).json(appData);
+		}else{
+			if (results.length >0){
+				bcrypt.compare(_old, results[0].Password_, (err,response)=>{
+					if (response) { 
+						const hashedNew =bcrypt.hashSync(_new, config.salt_rounds);
+						res.locals.connection.query("update Investigator set Password_ = ? where Id= ?",[hashedNew, _id], (error,results,fields) =>{
+							if(error){
+								appData = {success:false, message:`Error saving the new password`};
+								res.status(500).json(appData);
+							}else{
+								appData = {success:true, message:"The process was completed successfully "};
+								res.status(200).json(appData);
+							}
+						});
+					}else{
+						appData = {success:false, message:"La contraseña actual no es la correcta"};
+						res.status(200).json(appData);
+					}
+				})
+			}else{
+				appData = {success:false, message:`El usuario no existe`};
+				res.status(200).json(appData);
+			}
+		}
+	});
+});
+
+
 router.put('/reset/privileges',middleware.checkToken, (req,res) =>{
 	const id = req.body.id;
 	const isAdmin = req.body.isAdmin;
