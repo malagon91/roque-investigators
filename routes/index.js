@@ -10,14 +10,14 @@ import {checkIffileExists} from './../lib/utils';
 
 var router = express.Router();
 
-router.get('/investigators', function(req, res, next) {
+router.get('/investigators', (req, res, next) => {
   res.locals.connection.query('SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Phone,Info,isAdmin from Investigator', function (error, results, fields) {
 		if(error) throw error;
 			res.status(200).json(results);
 	});
 });
 
-router.get('/investigator/:id',middleware.checkToken, function(req, res) {
+router.get('/investigator/:id',middleware.checkToken, (req, res) => {
 	const id =  req.params.id;
 	const object_error= {};
 	res.locals.connection.query("select Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Phone,Info,isAdmin from Investigator where Id = ?",[id] ,function(error,results,fields){
@@ -32,15 +32,16 @@ router.get('/investigator/:id',middleware.checkToken, function(req, res) {
 	});
 });
 
-router.post('/user',middleware.checkToken, function(req,res){
+router.post('/user',middleware.checkToken, (req,res) => {
 	let appData = {};
 	let user = req.body;
 	const hashedPassword =bcrypt.hashSync(user.Password_, config.salt_rounds);
 	user = {...user, Password_: hashedPassword}
 	res.locals.connection.query("insert into Investigator set ?", user, function(error,results,fields){
 		if (error){
+			console.log(error)
 			appData = {success:false, message: "Error to insert the user"};
-			res.status(400).json(appData);
+			res.status(500).json(appData);
 		}else{
 			appData = {success:true, message: "insert was successfully"};
 			res.status(200).json(appData);
@@ -48,15 +49,13 @@ router.post('/user',middleware.checkToken, function(req,res){
 });
 });
 
-router.put('/user',middleware.checkToken, function(req,res){
+router.put('/user',middleware.checkToken, (req,res) => {
 	let appData = {};
 	const user = req.body;
-	console.log(user);
 	res.locals.connection.query("update Investigator set ? where Id = ?", [user, user.Id], function(error,results,fields){
 		if (error){
 			appData = {success:false, message: "Error to update the user"};
 			res.status(500).json(appData);
-			console.log(error)
 		}else{
 			appData = {success:true, message: "update was successfully"};
 			res.status(200).json(appData);
@@ -64,10 +63,9 @@ router.put('/user',middleware.checkToken, function(req,res){
 });
 });
 
-
-router.delete('/user/:id', middleware.checkToken,function(req,res){
+router.delete('/user/:id', middleware.checkToken, (req,res) => {
 	const id = req.params.id;
-	let appData ={};
+	let appData ={};// TODO: add logic to delete projects when the tables are been created
 	res.locals.connection.query("delete from Investigator where Id = ?",[id],function(error,results,fields){
 		if(error){
 			appData = {success:false, message:`Error deleting the user ${id}`};
@@ -79,7 +77,7 @@ router.delete('/user/:id', middleware.checkToken,function(req,res){
 	});
 });
 
-router.post('/profilepic', function(req,res){
+router.post('/profilepic', middleware.checkToken, (req,res) => {
 	let appData = {};
 	const tmp_path = req.files.file.path;
 	const id_user = req.body.Id;
@@ -111,11 +109,11 @@ router.post('/profilepic', function(req,res){
 					}
 				})
 	})
-router.post('/login', function(req,res){
+router.post('/login', (req,res) => {
 	let appData = {};
  	const email = req.body.email;
 	const password = req.body.password;
-	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Password_,Phone,Info,isAdmin from Investigator where Email = '${email}'`, function (error, results, fields) {
+	res.locals.connection.query(`SELECT Id,Name_Investigator,Title,Institution,Depto,Address,Url,Email,Password_,Phone,Info, isAdmin from Investigator where Email = '${email}'`, function (error, results, fields) {
 		if (error){
 			appData = {success: false, message: "Error Occured!"};
  			res.status(400).json(appData);
@@ -127,7 +125,7 @@ router.post('/login', function(req,res){
 							Id: results[0].Id,
 							Email: results[0].Email,
 							Name: results[0].Name_Investigator,
-
+							isAdmin: results[0].isAdmin,
 						}
 						const token = jwt.sign(userInfo,config.secret,{expiresIn: "10h"});
 						appData = {success: true, message: "Login successfully"};
@@ -149,6 +147,38 @@ router.post('/login', function(req,res){
 			}
 		}
 
+	});
+
+});
+
+router.put('/reset/password',middleware.checkToken, (req,res) =>{
+	const id = req.body.id;
+	const newPassword = req.body.password;
+	const hashedPassword =bcrypt.hashSync(newPassword, config.salt_rounds);
+	let appData ={};
+	res.locals.connection.query("update Investigator set Password_ = ? where Id= ?",[hashedPassword,id], (error,results,fields) =>{
+		if(error){
+			appData = {success:false, message:`Error saving the new password`};
+			res.status(500).json(appData);
+		}else{
+			appData = {success:true, message:"The process was completed successfully "};
+			res.status(200).json(appData);
+		}
+	});
+});
+
+router.put('/reset/privileges',middleware.checkToken, (req,res) =>{
+	const id = req.body.id;
+	const isAdmin = req.body.isAdmin;
+	let appData ={};
+	res.locals.connection.query("update Investigator set isAdmin = ? where Id= ?",[isAdmin,id], (error,results,fields) =>{
+		if(error){
+			appData = {success:false, message:`Error saving the values`};
+			res.status(500).json(appData);
+		}else{
+			appData = {success:true, message:"The process was completed successfully "};
+			res.status(200).json(appData);
+		}
 	});
 
 });
