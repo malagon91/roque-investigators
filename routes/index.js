@@ -152,8 +152,8 @@ router.post('/login', (req,res) => {
 });
 
 router.put('/reset/password',middleware.checkToken, (req,res) =>{
-	const id = req.params.id;
-	const newPassword = req.params.password;
+	const id = req.body.id;
+	const newPassword = req.body.password;
 	const hashedPassword =bcrypt.hashSync(newPassword, config.salt_rounds);
 	let appData ={};
 	res.locals.connection.query("update Investigator set Password_ = ? where Id= ?",[hashedPassword,id], (error,results,fields) =>{
@@ -168,8 +168,8 @@ router.put('/reset/password',middleware.checkToken, (req,res) =>{
 });
 
 router.put('/reset/privileges',middleware.checkToken, (req,res) =>{
-	const id = req.params.id;
-	const isAdmin = req.params.isAdmin;
+	const id = req.body.id;
+	const isAdmin = req.body.isAdmin;
 	let appData ={};
 	res.locals.connection.query("update Investigator set isAdmin = ? where Id= ?",[isAdmin,id], (error,results,fields) =>{
 		if(error){
