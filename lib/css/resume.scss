@@ -6,11 +6,19 @@
         text-align: center;
         margin-bottom: 20px;
     }
- 
     .content-center {
         text-align: center;
     }
     .margin-bottom {
         margin-bottom: 20px;
+    }
+    .floating {
+        position: fixed;
+        bottom: 2em;
+        right: 2em;
+        z-index: 100;
+    }
+    .btn-circle {
+        border-radius: 50%;
     }
 }

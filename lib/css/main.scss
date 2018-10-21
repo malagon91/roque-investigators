@@ -4,15 +4,17 @@ sans-serif;
 body {
     background-color: $color-body;
 }
+
 .body-content {
     background-color: white;
     //  height: 80vh;
 }
 
-//common classes 
+//common classes
 .custom-icon {
     font-size: 50px;
 }
+
 .icon-wrapper {
     text-align: center;
 }
@@ -28,3 +30,4 @@ body {
 @import 'adminPanel.scss';
 @import 'register.scss';
 @import 'changePassword.scss';
+@import 'myProjects.scss';
