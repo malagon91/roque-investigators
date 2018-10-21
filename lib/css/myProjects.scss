@@ -1,9 +1,22 @@
 #my-projects-menu {
     text-align: center;
     padding-bottom: 1rem;
-    height: 70vh;
-    h3 {
+    min-height: 80vh;
+    h3,
+    h4 {
         color: $color-secondary;
         padding: 15px;
+    }
+    .remove_div {
+        display: none;
+    }
+    .floating {
+        position: fixed;
+        bottom: 2em;
+        right: 2em;
+        z-index: 100;
+    }
+    .btn-circle {
+        border-radius: 50%;
     }
 }

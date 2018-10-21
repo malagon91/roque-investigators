@@ -1,7 +1,6 @@
 #my-resume {
     padding-top: 5vh;
     padding-bottom: 5vh;
-    // height: 80vh;
     h2 {
         text-align: center;
         margin-bottom: 20px;
@@ -11,14 +10,5 @@
     }
     .margin-bottom {
         margin-bottom: 20px;
-    }
-    .floating {
-        position: fixed;
-        bottom: 2em;
-        right: 2em;
-        z-index: 100;
-    }
-    .btn-circle {
-        border-radius: 50%;
     }
 }
