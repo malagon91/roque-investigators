@@ -1,0 +1,18 @@
+#projects-list {
+  min-height: 80vh;
+  margin: auto;
+  text-align: center;
+
+  .title {
+    padding: 5px;
+    h3 {
+      color: $color-primary;
+    }
+    border-bottom: solid 2px $color-primary;
+
+  }
+
+  .item{
+    color: $color-secondary
+  }
+}

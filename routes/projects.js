@@ -4,20 +4,24 @@ import middleware from './../lib/middleware';
 
 var router = express.Router();
 // get all projects
-router.get('/project', (req, res) => {
+router.get('/projects/:limit/:start', (req, res) => {
 	let appData = {};
-	res.locals.connection.query('select Id, Title, Resume_, Url, Date_ from Publication order by Date_ desc',  (error, results, fields) => {
-		if (error) {
-			appData = { success: false, message: 'Internal error' }
-			res.status(500).json(appData);
-		} else {
-			appData = {
-				success: true,
-				message: 'the information was completed',
-				data: results,
-			}
-			res.status(200).json(appData);
-		}
+	const limit = req.params.limit;
+	const start = req.params.start;
+	res.locals.connection.query(
+		`select p.Id, p.Title, p.Resume_, p.Url, p.Date_, I.Name_Investigator from Publication p Inner join Investigator I on (P.IdUSer = I.Id)  order by p.Date_ desc limit ${limit} offset ${start}`,
+		  (error, results, fields) => {
+				if (error) {
+					appData = { success: false, message: 'Internal error' }
+					res.status(500).json(appData);
+				} else {
+					appData = {
+						success: true,
+						message: 'the information was completed',
+						data: results,
+					}
+					res.status(200).json(appData);
+				}
 	});
 });
 // Get projects by user
