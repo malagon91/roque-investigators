@@ -63,6 +63,7 @@ router.put('/project', middleware.checkToken, (req, res) => {
 	let appData = {};
 	res.locals.connection.query('update Publication set ? where Id = ?',[model, model.Id], (error,result, fields) => {
 		if (error) {
+			console.log(error)
 			appData = { success: false, message: 'Internal error' }
 			res.status(500).json(appData);
 		} else {
