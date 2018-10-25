@@ -32,11 +32,13 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         margin-bottom: 1rem;
     }
-    #new-project-form{
+    #new-project-form {
         padding: 1.3rem;
+        .label-form {
+            display: block;
+        }
     }
-
-    .log-validation{
+    .log-validation {
         padding-bottom: 15px;
     }
 }
