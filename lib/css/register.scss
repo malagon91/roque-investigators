@@ -1,18 +1,16 @@
 #new-user-form {
-  text-align: center;
-  padding-bottom: 1rem;
-  h3 {
-    color: $color-secondary;
-    padding: 15px;
-  }
-
-  .form-content{
-    padding: 3vh;
-  }
-
-  .isadmin{
-    padding: 15px;
-    color: $color-secondary;
-    
-  }
+    text-align: center;
+    padding-bottom: 1rem;
+    min-height: 80vh;
+    h3 {
+        color: $color-secondary;
+        padding: 15px;
+    }
+    .form-content {
+        padding: 3vh;
+    }
+    .isadmin {
+        padding: 15px;
+        color: $color-secondary;
+    }
 }

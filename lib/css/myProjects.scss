@@ -1,0 +1,45 @@
+#my-projects-menu {
+    text-align: center;
+    padding-bottom: 1rem;
+    min-height: 80vh;
+    h3,
+    h4 {
+        color: $color-secondary;
+        padding: 15px;
+    }
+    .remove_div {
+        display: none;
+    }
+    .floating {
+        position: fixed;
+        bottom: 2em;
+        right: 2em;
+        z-index: 100;
+    }
+    .btn-circle {
+        border-radius: 50%;
+    }
+    .btn-space {
+        margin-right: 15px;
+        margin-bottom: 5px;
+    }
+    .table-wrapper {
+        padding-bottom: 1.3rem;
+    }
+    table {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .form-wrapper {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin-bottom: 1rem;
+    }
+    #new-project-form {
+        padding: 1.3rem;
+        .label-form {
+            font-size: 15px;
+        }
+    }
+    .log-validation {
+        padding-bottom: 15px;
+    }
+}

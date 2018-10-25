@@ -45,15 +45,25 @@ Info varchar(2000)
 insert into Investigator (Name_Investigator,Title,Photo,Institution,Depto,Address,Url,Email,Phone,Info)
 values ('Miguel Malagon','Lic en informatica en el ITR', 'imge.jpg', 'Instituto tecnologico de roque',
 'Sistemas', 'Cela ya gto', 'https://github.com/malagon91', 'miguelmalagon@outlook.com','1234567890', 'Resume')
-​
 
 ALTER TABLE investigator ADD COLUMN isAdmin TinyInt(1)
-
 ALTER TABLE investigator drop column  Photo
-
 create table Config(
 Id int NOT NULL primary key AUTO_INCREMENT,
 DefaultPsw varchar(50)
 )
 
 insert into Config (DefaultPsw) values ('roque')
+
+create table Publication (
+Id int NOT NULL primary key AUTO_INCREMENT,
+IdUser int not null,
+Title varchar(300),
+Resume_ TEXT,
+Url varchar(200),
+Date_ DATE not null,
+CONSTRAINT fk_user_publication FOREIGN KEY (IdUser) REFERENCES Investigator(Id)
+)
+
+insert into Publication (IdUser,Title,Resume_,Url,Date_) values (6,'Primer publicacion en el mundo',
+'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.','https://www.lipsum.com/','2018-10-10')
