@@ -22,25 +22,36 @@
   }
 
   .button-wrapper {
-    button {
-      padding: 15px 25px;
-      font-size: 15px;
-      text-align: center;
-      cursor: pointer;
-      outline: none;
-      color: #fff;
-      background-color: transparent;
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 9px #999;
+    text-align: left;
+    button{
+    margin: 10px;
+    color: $color-primary;
+    border-color: $color-primary;
       &:hover{
         background-color: $color-primary;
-      }
-      &:active{
-        background-color: #3e8e41;
-        box-shadow: 0 5px #666;
-        transform: translateY(4px);
-      }
+        color: white;
+        border-color: white;
+    }
+    &:active{
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      background-color: $color-primary;
+      color: white;
+      border-color: white;
+    }
+    &:focus{
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+   }
+  }
+
+  .input-search{
+    margin: 10px;
+    .custom-input{
+    color: $color-primary;
+    font-size: 14px;
     }
   }
+
+
+
 }
