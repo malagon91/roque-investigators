@@ -5,14 +5,42 @@
 
   .title {
     padding: 5px;
+
     h3 {
       color: $color-primary;
     }
+
     border-bottom: solid 2px $color-primary;
 
   }
 
-  .item{
-    color: $color-secondary
+  .item {
+    color: $color-secondary;
+    border-bottom: solid 1px $color-secondary;
+    margin-bottom: 0;
+
+  }
+
+  .button-wrapper {
+    button {
+      padding: 15px 25px;
+      font-size: 15px;
+      text-align: center;
+      cursor: pointer;
+      outline: none;
+      color: #fff;
+      background-color: transparent;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 9px #999;
+      &:hover{
+        background-color: $color-primary;
+      }
+      &:active{
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+    }
   }
 }
